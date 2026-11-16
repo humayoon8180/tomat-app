@@ -5,12 +5,18 @@ from app.core.database import engine, Base
 import app.models  # Ensures all models are registered with Base metadata
 from app.api import auth_router, products_router, orders_router
 
-# Auto-create tables in MySQL on startup
+# Auto-create tables & seed initial demo data on startup if database is empty
 try:
-    Base.metadata.create_all(bind=engine)
-    print("Database tables initialized successfully.")
+    import sys, os
+    # Ensure backend root is in sys.path
+    backend_root = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+    if backend_root not in sys.path:
+        sys.path.insert(0, backend_root)
+    from seed_data import seed
+    seed()
+    print("Database tables & seed data initialized successfully.")
 except Exception as e:
-    print(f"Notice during table creation: {e}")
+    print(f"Notice during table creation/seeding: {e}")
 
 app = FastAPI(
     title="TOMAT App API",
