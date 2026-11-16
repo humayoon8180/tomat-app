@@ -19,7 +19,14 @@ class Settings:
 
     @property
     def DATABASE_URL(self) -> str:
-        # PyMySQL connection string: mysql+pymysql://<user>:<password>@<host>:<port>/<dbname>
+        # Check if full DATABASE_URL environment variable is provided (e.g. Aiven, TiDB, Render)
+        env_db_url = os.getenv("DATABASE_URL")
+        if env_db_url:
+            if env_db_url.startswith("mysql://"):
+                env_db_url = env_db_url.replace("mysql://", "mysql+pymysql://", 1)
+            return env_db_url
+
+        # Fallback to local decomposed credentials (XAMPP default)
         if self.DB_PASSWORD:
             return f"mysql+pymysql://{self.DB_USER}:{self.DB_PASSWORD}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}?charset=utf8mb4"
         return f"mysql+pymysql://{self.DB_USER}@{self.DB_HOST}:{self.DB_PORT}/{self.DB_NAME}?charset=utf8mb4"
