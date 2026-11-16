@@ -1,6 +1,6 @@
 # 🍅 TOMAT App — Fresh Produce E-Commerce & Inventory Management
 
-> **Project Status:** ✅ Completed & Production Ready  
+> **Project Status:** ✅ PROJECT COMPLETED  
 > Full-Stack Internship Practice Project featuring a **Customer Storefront** and an **Admin Inventory Dashboard**.
 
 ---
