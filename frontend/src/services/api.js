@@ -21,10 +21,10 @@ const api = axios.create({
   },
 });
 
-// Request interceptor to attach JWT token
+// Request interceptor to attach JWT token (tab-isolated sessionStorage preferred)
 api.interceptors.request.use(
   (config) => {
-    const token = localStorage.getItem('tomat_token');
+    const token = sessionStorage.getItem('tomat_token') || localStorage.getItem('tomat_token');
     if (token) {
       config.headers.Authorization = `Bearer ${token}`;
     }
@@ -38,12 +38,10 @@ api.interceptors.response.use(
   (response) => response,
   (error) => {
     if (error.response && error.response.status === 401) {
-      // Token expired or invalid
-      // Only clear if token was present
-      if (localStorage.getItem('tomat_token')) {
-        localStorage.removeItem('tomat_token');
-        localStorage.removeItem('tomat_user');
-      }
+      sessionStorage.removeItem('tomat_token');
+      sessionStorage.removeItem('tomat_user');
+      localStorage.removeItem('tomat_token');
+      localStorage.removeItem('tomat_user');
     }
     return Promise.reject(error);
   }

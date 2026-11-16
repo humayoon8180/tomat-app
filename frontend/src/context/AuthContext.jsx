@@ -4,27 +4,30 @@ import api from '../services/api';
 const AuthContext = createContext();
 
 export const AuthProvider = ({ children }) => {
-  const [user, setUser] = useState(null);
-  const [token, setToken] = useState(localStorage.getItem('tomat_token') || null);
-  const [loading, setLoading] = useState(true);
+  const [token, setToken] = useState(() => {
+    return sessionStorage.getItem('tomat_token') || localStorage.getItem('tomat_token') || null;
+  });
 
-  useEffect(() => {
-    const savedUser = localStorage.getItem('tomat_user');
-    if (savedUser && token) {
+  const [user, setUser] = useState(() => {
+    const savedUser = sessionStorage.getItem('tomat_user') || localStorage.getItem('tomat_user');
+    if (savedUser) {
       try {
-        setUser(JSON.parse(savedUser));
+        return JSON.parse(savedUser);
       } catch (e) {
-        localStorage.removeItem('tomat_user');
+        return null;
       }
     }
-    setLoading(false);
-  }, [token]);
+    return null;
+  });
+
+  const [loading, setLoading] = useState(false);
 
   const login = async (email, password) => {
     const response = await api.post('/api/auth/login', { email, password });
     const { access_token, user: userData } = response.data;
-    localStorage.setItem('tomat_token', access_token);
-    localStorage.setItem('tomat_user', JSON.stringify(userData));
+    // Use sessionStorage so each browser tab can have independent roles (Admin vs Customer)
+    sessionStorage.setItem('tomat_token', access_token);
+    sessionStorage.setItem('tomat_user', JSON.stringify(userData));
     setToken(access_token);
     setUser(userData);
     return userData;
@@ -33,14 +36,16 @@ export const AuthProvider = ({ children }) => {
   const register = async (name, email, password) => {
     const response = await api.post('/api/auth/register', { name, email, password });
     const { access_token, user: userData } = response.data;
-    localStorage.setItem('tomat_token', access_token);
-    localStorage.setItem('tomat_user', JSON.stringify(userData));
+    sessionStorage.setItem('tomat_token', access_token);
+    sessionStorage.setItem('tomat_user', JSON.stringify(userData));
     setToken(access_token);
     setUser(userData);
     return userData;
   };
 
   const logout = () => {
+    sessionStorage.removeItem('tomat_token');
+    sessionStorage.removeItem('tomat_user');
     localStorage.removeItem('tomat_token');
     localStorage.removeItem('tomat_user');
     setToken(null);

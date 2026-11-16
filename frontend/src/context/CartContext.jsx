@@ -16,19 +16,19 @@ import React, { createContext, useContext, useState, useEffect } from 'react';
 const CartContext = createContext();
 
 export const CartProvider = ({ children }) => {
-  // Initialize cart state from browser localStorage for persistence across page refreshes
+  // Initialize cart state (isolated per tab in sessionStorage)
   const [cartItems, setCartItems] = useState(() => {
     try {
-      const saved = localStorage.getItem('tomat_cart');
+      const saved = sessionStorage.getItem('tomat_cart') || localStorage.getItem('tomat_cart');
       return saved ? JSON.parse(saved) : [];
     } catch (e) {
       return [];
     }
   });
 
-  // Sync cart changes to localStorage
+  // Sync cart changes to tab-isolated sessionStorage
   useEffect(() => {
-    localStorage.setItem('tomat_cart', JSON.stringify(cartItems));
+    sessionStorage.setItem('tomat_cart', JSON.stringify(cartItems));
   }, [cartItems]);
 
 
@@ -68,6 +68,8 @@ export const CartProvider = ({ children }) => {
 
   const clearCart = () => {
     setCartItems([]);
+    sessionStorage.removeItem('tomat_cart');
+    localStorage.removeItem('tomat_cart');
   };
 
   const itemCount = cartItems.reduce((acc, item) => acc + item.quantity, 0);
