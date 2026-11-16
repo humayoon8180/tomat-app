@@ -1,6 +1,7 @@
 # 🍅 TOMAT App — Fresh Produce E-Commerce & Inventory Management
 
-A full-stack web application for ordering farm-fresh tomatoes directly from local greenhouses, featuring a **Customer Storefront** and an **Admin Inventory Dashboard**.
+> **Project Status:** ✅ Completed & Production Ready  
+> Full-Stack Internship Practice Project featuring a **Customer Storefront** and an **Admin Inventory Dashboard**.
 
 ---
 
