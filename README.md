@@ -4,7 +4,16 @@ A full-stack web application for ordering farm-fresh tomatoes directly from loca
 
 ---
 
-## 🚀 Live Demo Credentials
+## 🌐 Live Deployments
+
+- **Frontend App:** [https://tomat-53li26gzi-orchestrator7.vercel.app](https://tomat-53li26gzi-orchestrator7.vercel.app)
+- **Backend API:** [https://tomat-app-87xg.vercel.app](https://tomat-app-87xg.vercel.app)
+- **Interactive API Docs (Swagger):** [https://tomat-app-87xg.vercel.app/docs](https://tomat-app-87xg.vercel.app/docs)
+- **Database:** Aiven Managed Cloud MySQL (`defaultdb`)
+
+---
+
+## 🚀 Demo Accounts & Credentials
 
 | Role | Email | Password | What You Can Test |
 | :--- | :--- | :--- | :--- |
@@ -53,3 +62,19 @@ npm run dev
 - **Checkout:** Cash on Delivery & Demo Card options.
 - **Order Pipeline:** Visual status tracker (`Pending` ➔ `Shipped` ➔ `Delivered`) and customer cancellation.
 - **Admin Inventory:** Add/edit varieties, soft-delete, and **Low-Stock Alerting (< 10 kg)** with 1-click restock.
+
+---
+
+## 📡 RESTful API Specifications
+
+| Method | Endpoint | Access | Description |
+| :--- | :--- | :--- | :--- |
+| `POST` | `/api/auth/register` | Public | Register a new customer account |
+| `POST` | `/api/auth/login` | Public | Authenticate user & issue JWT token |
+| `GET` | `/api/products` | Public | Fetch list of available tomato products |
+| `POST` | `/api/products` | Admin | Create a new tomato product entry |
+| `PUT` | `/api/products/:id` | Admin | Update stock, price, or product details |
+| `POST` | `/api/orders` | Customer | Submit a new order with cart items |
+| `GET` | `/api/orders/my-orders` | Customer | Retrieve logged-in user's order history |
+| `PATCH` | `/api/orders/:id/status` | Admin | Update order status (Pending/Shipped/Delivered) |
+

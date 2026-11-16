@@ -2,9 +2,8 @@ from fastapi import APIRouter, Depends, HTTPException, status
 from sqlalchemy.orm import Session
 from app.core.database import get_db
 from app.core.security import hash_password, verify_password, create_access_token
-from app.core.deps import get_current_user
 from app.models.user import User
-from app.schemas.user import UserRegister, UserLogin, UserOut, Token
+from app.schemas.user import UserRegister, UserLogin, Token
 
 router = APIRouter(prefix="/api/auth", tags=["Authentication"])
 
@@ -55,7 +54,4 @@ def login(credentials: UserLogin, db: Session = Depends(get_db)):
         "user": user
     }
 
-@router.get("/me", response_model=UserOut)
-def get_me(current_user: User = Depends(get_current_user)):
-    """Retrieve logged-in user profile."""
-    return current_user
+
