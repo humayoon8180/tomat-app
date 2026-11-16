@@ -7,7 +7,7 @@
 
 ## 🌐 Live Deployments
 
-- **Frontend App:** [https://tomat-53li26gzi-orchestrator7.vercel.app](https://tomat-53li26gzi-orchestrator7.vercel.app)
+- **Frontend App:** [https://tomat-bce3ru52a-orchestrator7.vercel.app/](https://tomat-bce3ru52a-orchestrator7.vercel.app/)
 - **Backend API:** [https://tomat-app-87xg.vercel.app](https://tomat-app-87xg.vercel.app)
 - **Interactive API Docs (Swagger):** [https://tomat-app-87xg.vercel.app/docs](https://tomat-app-87xg.vercel.app/docs)
 - **Database:** Aiven Managed Cloud MySQL (`defaultdb`)
